@@ -44,7 +44,8 @@ class ArticleControllerTest {
         mvc.perform(get("/articles/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(model().attributeExists("articles"));
+                .andExpect(model().attributeExists("article"))
+                .andExpect(model().attributeExists("articleComments"));
         // then
     }
 

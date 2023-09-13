@@ -29,40 +29,40 @@ public class Article extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    @Column(nullable = false)
-    private String title;
-    @Setter
-    @Column(nullable = false, length = 10000)
-    private String content;
-    @Setter
-    private String hashtag;
+    @Setter @ManyToOne(optional = false) private UserAccount userAccount; // 유저 정보 (ID)
 
-    @OrderBy("id")
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @Setter @Column(nullable = false) private String title; // 제목
+    @Setter @Column(nullable = false, length = 10000) private String content; // 본문
+
+    @Setter private String hashtag; // 해시태그
+
     @ToString.Exclude
+    @OrderBy("createdAt DESC")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
 
-    private Article(String title, String content, String hashtag) {
+    private Article(UserAccount userAccount, String title, String content, String hashtag) {
+        this.userAccount = userAccount;
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
     }
 
-    public static Article of(String title, String content, String hashtag) {
-        return new Article(title, content, hashtag);
+    public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
+        return new Article(userAccount, title, content, hashtag);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Article article)) return false;
-        return Objects.equals(id, article.id);
+        return id != null && id.equals(article.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }

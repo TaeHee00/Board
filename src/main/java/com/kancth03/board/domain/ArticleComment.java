@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = {
         @Index(columnList = "content"),
@@ -25,11 +25,18 @@ public class ArticleComment extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Setter @ManyToOne(optional = false) private Article article; // 게시글 (ID)
-    @Setter @ManyToOne(optional = false) private UserAccount userAccount; // 유저 정보 (ID)
+    @Setter
+    @ManyToOne(optional = false)
+    private Article article;
+    @Setter
+    @ManyToOne(optional = false)
+    private UserAccount userAccount;
+    @Setter
+    @Column(nullable = false, length = 500)
+    private String content;
 
     @Setter @Column(nullable = false, length = 500) private String content; // 본문
+
 
     private ArticleComment(Article article, UserAccount userAccount, String content) {
         this.article = article;

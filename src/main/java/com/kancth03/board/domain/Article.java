@@ -1,20 +1,14 @@
 package com.kancth03.board.domain;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = {
         @Index(columnList = "title"),
@@ -29,12 +23,18 @@ public class Article extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter @ManyToOne(optional = false) private UserAccount userAccount; // 유저 정보 (ID)
+    @Setter
+    @ManyToOne(optional = false)
+    private UserAccount userAccount;
 
-    @Setter @Column(nullable = false) private String title; // 제목
-    @Setter @Column(nullable = false, length = 10000) private String content; // 본문
-
-    @Setter private String hashtag; // 해시태그
+    @Setter
+    @Column(nullable = false)
+    private String title;
+    @Setter
+    @Column(nullable = false, length = 10000)
+    private String content;
+    @Setter
+    private String hashtag;
 
     @ToString.Exclude
     @OrderBy("createdAt DESC")

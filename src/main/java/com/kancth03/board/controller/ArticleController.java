@@ -40,7 +40,7 @@ public class ArticleController {
 
         ArticleWithCommentsResponse article = ArticleWithCommentsResponse.from(articleService.getArticle(articleId));
         model.addAttribute("article", article);
-        model.addAttribute("articleComments", article.articleCommentResponses());
+        model.addAttribute("articleComments", article.articleCommentsResponse());
 
         return "articles/detail";
     }

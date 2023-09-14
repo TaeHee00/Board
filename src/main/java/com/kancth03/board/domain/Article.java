@@ -36,9 +36,9 @@ public class Article extends AuditingFields {
     @Setter
     private String hashtag;
 
+    @ToString.Exclude
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    @ToString.Exclude
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
 
@@ -57,11 +57,12 @@ public class Article extends AuditingFields {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Article article)) return false;
-        return Objects.equals(id, article.id);
+        return id != null && id.equals(article.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }
